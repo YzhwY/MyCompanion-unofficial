@@ -1,0 +1,16 @@
+.gradle/
+.gradle-user-home/
+build/
+run/
+run-data/
+repo/
+*.log
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+run-gametest/
+
+.gradle-temp/

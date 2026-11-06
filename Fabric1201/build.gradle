@@ -1,0 +1,85 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+// Release filename: [中文名]英文名-模组版本-Fabric游戏版本[-分类].jar
+base { archivesName = "[我的伙伴非官方移植版]${project.archives_base_name}" }
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveVersion = "${project.mod_version}-Fabric${project.minecraft_version}"
+}
+
+repositories { mavenCentral() }
+
+def enableGameTests = providers.gradleProperty('enableGameTests').isPresent()
+if (enableGameTests) {
+    sourceSets.main.java.srcDir 'src/gametest/java'
+    sourceSets.main.resources.srcDir 'src/gametest/resources'
+}
+
+
+loom {
+    splitEnvironmentSourceSets()
+    runs {
+        gameTest {
+            server()
+            name 'Companion GameTest'
+            vmArg '-Dfabric-api.gametest'
+            runDir 'run-gametest'
+        }
+    }
+    mods {
+        my_companion {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'enableGameTests', enableGameTests
+    filesMatching('fabric.mod.json') { expand version: project.version }
+    doLast {
+        if (enableGameTests) {
+            def metadata = file("${destinationDir}/fabric.mod.json")
+            def parsed = new groovy.json.JsonSlurper().parse(metadata, 'UTF-8')
+            parsed.entrypoints['fabric-gametest'] = ['dev.codex.mycompanion.CompanionGameTests']
+            metadata.setText(groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(parsed)), 'UTF-8')
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(17) }
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) { from components.java }
+    }
+}
+
+// MyCompanion branding is project-owned and shared only by its two editions.
+sourceSets.main.resources.srcDir '../branding/resources'
+tasks.withType(Jar).configureEach { from('../LICENSE') }
+tasks.named('jar', Jar) {
+    manifest.attributes('Implementation-Title': '我的伙伴非官方移植版',
+                        'Implementation-Version': project.version.toString())
+}

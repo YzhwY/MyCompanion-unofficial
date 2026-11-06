@@ -1,0 +1,14 @@
+{
+  "entity.my_companion.companion_fox": "My Companion",
+  "screen.my_companion.title": "My Companion · Controls",
+  "screen.my_companion.subtitle": "Choose your companion's mischievous habits",
+  "screen.my_companion.feet": "Get underfoot when looking down: %s",
+  "screen.my_companion.traps": "Seek nearby redstone triggers: %s",
+  "screen.my_companion.on": "ON",
+  "screen.my_companion.off": "OFF",
+  "screen.my_companion.feet_hint": "Looks down? Your fox rushes to your feet.",
+  "screen.my_companion.traps_hint": "Seeks pressure plates and attached tripwire.",
+  "screen.my_companion.saved": "Saved per player, even if your fox is replaced.",
+  "screen.my_companion.done": "Done",
+  "message.my_companion.not_owner": "This companion belongs to another player."
+}

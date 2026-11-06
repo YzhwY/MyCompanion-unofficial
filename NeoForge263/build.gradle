@@ -1,0 +1,73 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+version = mod_version
+group = mod_group_id
+base { archivesName = "[我的伙伴非官方移植版]${project.archives_base_name}" }
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveVersion = "${project.mod_version}-NeoForge${project.minecraft_version}"
+}
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    withSourcesJar()
+}
+sourceSets.main.resources.srcDir 'src/generated/resources'
+// Opt-in engine tests only. Normal release builds never include the test entrypoint.
+if (providers.gradleProperty('enableGameTests').isPresent()) {
+    sourceSets.main.java.srcDir 'src/gametest/java'
+    sourceSets.main.resources.srcDir 'src/gametest/resources'
+}
+neoForge {
+    version = project.neo_version
+    runs {
+        client { client() }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        gameTestServer {
+            type = 'gameTestServer'
+            gameDirectory = file('run-gametest')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        data {
+            clientData()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources').absolutePath, '--existing', file('src/main/resources').absolutePath
+        }
+        configureEach { logLevel = org.slf4j.event.Level.INFO }
+    }
+    mods {
+        "${mod_id}" { sourceSet sourceSets.main }
+    }
+}
+def generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
+    def properties = [minecraft_version: minecraft_version,
+                      minecraft_version_range: minecraft_version_range,
+                      neo_version: neo_version, mod_id: mod_id,
+                      mod_name: mod_name, mod_license: mod_license,
+                      mod_version: mod_version]
+    inputs.properties properties
+    expand properties
+    from 'src/main/templates'
+    into 'build/generated/sources/modMetadata'
+}
+sourceSets.main.resources.srcDir generateModMetadata
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) { from components.java }
+    }
+}
+
+// MyCompanion branding is project-owned and shared only by its two editions.
+sourceSets.main.resources.srcDir '../branding/resources'
+tasks.withType(Jar).configureEach { from('../LICENSE') }
+tasks.named('jar', Jar) {
+    manifest.attributes('Implementation-Title': '我的伙伴非官方移植版',
+                        'Implementation-Version': project.version.toString())
+}

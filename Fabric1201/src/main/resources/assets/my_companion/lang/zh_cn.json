@@ -1,0 +1,14 @@
+{
+  "entity.my_companion.companion_fox": "我的伙伴",
+  "screen.my_companion.title": "我的伙伴 · 控制面板",
+  "screen.my_companion.subtitle": "为你的伙伴选择调皮行为",
+  "screen.my_companion.feet": "低头时跑到脚下：%s",
+  "screen.my_companion.traps": "主动触发附近机关：%s",
+  "screen.my_companion.on": "开启",
+  "screen.my_companion.off": "关闭",
+  "screen.my_companion.feet_hint": "低头看脚下时，它会靠近你的落脚点。",
+  "screen.my_companion.traps_hint": "寻找附近的压力板和已连接的绊线。",
+  "screen.my_companion.saved": "设置自动保存，更换伙伴后依然有效。",
+  "screen.my_companion.done": "完成",
+  "message.my_companion.not_owner": "这只伙伴属于其他玩家。"
+}

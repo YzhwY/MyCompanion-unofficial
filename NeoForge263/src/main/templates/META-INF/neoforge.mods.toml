@@ -1,0 +1,24 @@
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+iconFile="assets/my_companion/icon.png"
+bannerFile="assets/my_companion/icon.png"
+iconBlur=false
+description='1.0.0 Release 正式版。为每位玩家添加专属狐狸伙伴，支持自动跟随、安全传送、直接免伤、低头脚下捣乱、主动触发机关及右键控制面板。独立实现的非官方移植版。'
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"

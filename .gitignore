@@ -1,0 +1,38 @@
+# Build caches and outputs (all loaders)
+**/.gradle/
+**/.gradle-user-home/
+**/.gradle-temp/
+**/build/
+**/bin/
+**/out/
+**/run/
+**/run-*/
+**/logs/
+**/.cache/
+**/src/generated/resources/.cache/
+*.log
+*.hprof
+*.jfr
+*.zip
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Local settings, credentials and IDE files
+.env
+.env.*
+!.env.example
+**/gradle-local.properties
+**/local.properties
+**/gradle-user.properties
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+.DS_Store
+Thumbs.db
+
+# Python helpers
+**/__pycache__/
+*.py[cod]

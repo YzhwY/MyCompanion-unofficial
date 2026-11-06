@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "my_companion",
+  "version": "${version}",
+  "name": "我的伙伴非官方移植版",
+  "description": "1.0.0 Release 正式版。为每位玩家添加专属狐狸伙伴，支持自动跟随、安全传送、直接免伤、低头脚下捣乱、主动触发机关及右键控制面板。独立实现的非官方移植版。",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.codex.mycompanion.MyCompanionMod"
+    ],
+    "client": [
+      "dev.codex.mycompanion.MyCompanionClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "icon": "assets/my_companion/icon.png",
+  "license": "MIT"
+}
